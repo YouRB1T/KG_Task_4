@@ -33,6 +33,7 @@ public class GuiController {
     Color fillColor = Color.AQUA;
 
     HashMap<RenderStyle, Boolean> renderProperties = new HashMap<>();
+    Scene scene = new Scene();
 
     final private float TRANSLATION = 0.5F;
 
@@ -43,11 +44,6 @@ public class GuiController {
     private Canvas canvas;
 
     private Model mesh = null;
-
-    Scene scene = new Scene();
-
-
-    private HashMap<String, Model> meshes = new HashMap<>();
 
     private Camera camera = new Camera(
             new Vector3f(0, 0, 100),
