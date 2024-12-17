@@ -10,6 +10,20 @@ import static com.cgvsu.math.Vector3f.sum;
 
 public class ModelUtils {
 
+    public void calculateCenter(Model model) {
+        if (model.vertices.isEmpty()) {
+            model.centerModel = new Vector3f(0, 0, 0);
+            return;
+        }
+
+        Vector3f sum = new Vector3f(0, 0, 0);
+        for (Vector3f vertex : model.vertices) {
+            sum.add(vertex);
+        }
+
+        model.centerModel = new Vector3f(sum.x / model.vertices.size(), sum.y / model.vertices.size(), sum.z / model.vertices.size());
+    }
+
     public static void recalculateNormals(Model model) {
         model.normals.clear();
         for (int i = 0; i < model.vertices.size(); i++) {
@@ -118,7 +132,7 @@ public class ModelUtils {
                 triangles.add(triangle);
             }
 
-            if (polygon.getVertexIndices().size() < 3) { //Убираем из массива точки, которые уже построились
+            if (polygon.getVertexIndices().size() < 3) {
                 polygon.getVertexIndices().clear();
             }
         }

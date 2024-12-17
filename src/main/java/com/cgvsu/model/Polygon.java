@@ -7,7 +7,15 @@ public class Polygon {
     private ArrayList<Integer> vertexIndices;
     private ArrayList<Integer> textureVertexIndices;
     private ArrayList<Integer> normalIndices;
+    private Model model;
 
+
+    public Polygon(Model model) {
+        vertexIndices = new ArrayList<Integer>();
+        textureVertexIndices = new ArrayList<Integer>();
+        normalIndices = new ArrayList<Integer>();
+        this.model = model;
+    }
 
     public Polygon() {
         vertexIndices = new ArrayList<Integer>();

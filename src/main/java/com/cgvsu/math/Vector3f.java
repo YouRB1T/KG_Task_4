@@ -5,6 +5,11 @@ import java.util.ArrayList;
 // Это заготовка для собственной библиотеки для работы с линейной алгеброй
 public class Vector3f {
 
+    public final float eps = 1e-4f;
+
+    public Vector3f() {
+    }
+
     public Vector3f(float x, float y, float z, float w) {
         this.x = x;
         this.y = y;
@@ -15,13 +20,6 @@ public class Vector3f {
         this.x = x;
         this.y = y;
         this.z = z;
-    }
-
-
-    public boolean equals(Vector3f other) {
-        // todo: желательно, чтобы это была глобальная константа
-        final float eps = 1e-4f;
-        return Math.abs(x - other.x) < eps && Math.abs(y - other.y) < eps && Math.abs(z - other.z) < eps;
     }
 
     public float x;
@@ -42,6 +40,10 @@ public class Vector3f {
     }
     public float getW() {
         return w;
+    }
+
+    public boolean equals(Vector3f other) {
+        return Math.abs(x - other.x) < eps && Math.abs(y - other.y) < eps && Math.abs(z - other.z) < eps;
     }
 
     public Vector3f multiplication(float num){
@@ -100,5 +102,17 @@ public class Vector3f {
         this.x = result.x;
         this.y = result.y;
         this.z = result.z;
+    }
+
+    public void add(Vector3f other) {
+        this.x += other.x;
+        this.y += other.y;
+        this.z += other.z;
+    }
+
+    public void scale(float scalar) {
+        this.x *= scalar;
+        this.y *= scalar;
+        this.z *= scalar;
     }
 }

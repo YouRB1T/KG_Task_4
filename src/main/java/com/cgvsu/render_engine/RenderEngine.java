@@ -3,7 +3,6 @@ package com.cgvsu.render_engine;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.cgvsu.Utils;
 import com.cgvsu.math.Vector3f;
 import com.cgvsu.rasterization.*;
 import javafx.scene.canvas.Canvas;
@@ -76,5 +75,7 @@ public class RenderEngine {
                     new MyColor(redColor,greenColor,blueColor),new MyColor(redColor,greenColor,blueColor),new MyColor(redColor,greenColor,blueColor));
             }
         }
+
     }
+
 }

@@ -43,6 +43,8 @@ public class GuiController {
 
     private Model mesh = null;
 
+    private HashMap<String, Model> meshes = new HashMap<>();
+
     private Camera camera = new Camera(
             new Vector3f(0, 0, 100),
             new Vector3f(0, 0, 0),
@@ -69,7 +71,7 @@ public class GuiController {
             camera.setAspectRatio((float) (width / height));
 
             if (mesh != null) {
-                ModelUtils.triangulatePolygons(mesh);
+                // ModelUtils.triangulatePolygons(mesh);
                 RenderEngine.render(canvas.getGraphicsContext2D(), camera, mesh, (int) width, (int) height, fillColor, renderProperties);
             }
         });
@@ -99,7 +101,6 @@ public class GuiController {
         try {
             String fileContent = Files.readString(fileName);
             mesh = ObjReader.read(fileContent);
-            // todo: обработка ошибок
         } catch (IOException exception) {
 
         }
