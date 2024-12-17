@@ -8,11 +8,11 @@ import java.util.*;
 public class PolygonsDeleter {
     public static void deletePolygons(Model model, List<Integer> listNumbers, boolean deleteLonelyVertexes){
         //listNumbers.sort(comparator);
-        List<Polygon> deletedPolygons= new ArrayList<>();
+        List<Polygon> deletedPolygonsList = new ArrayList<>();
         for(Integer index : listNumbers){
-            deletedPolygons.add(model.polygons.get(index));
+            deletedPolygonsList.add(model.polygons.get(index));
         }
-        for(Polygon currPolygon : deletedPolygons){
+        for(Polygon currPolygon : deletedPolygonsList){
             model.polygons.remove(currPolygon);
             if(deleteLonelyVertexes){
                 deleteAllLonelyVertices(model, currPolygon.getVertexIndices());
@@ -22,23 +22,23 @@ public class PolygonsDeleter {
         }
     }
     private static void deleteVertices(Model model, List<Integer> vertexIndices, int j){
-        model.vertices.remove(vertexIndices.get(j).intValue());//
+        model.vertices.remove(vertexIndices.get(j).intValue());
         for(Polygon polygon1 : model.polygons){
-            for(int k = 0; k < polygon1.getVertexIndices().size(); k++){//
+            for(int k = 0; k < polygon1.getVertexIndices().size(); k++){
 
-                if(polygon1.getVertexIndices().get(k) > vertexIndices.get(j)){//
-                    polygon1.getVertexIndices().set(k, polygon1.getVertexIndices().get(k) - 1);//
+                if(polygon1.getVertexIndices().get(k) > vertexIndices.get(j)){
+                    polygon1.getVertexIndices().set(k, polygon1.getVertexIndices().get(k) - 1);
                 }
             }
         }
     }
     private static void deleteTextureVertices(Model model, List<Integer> vertexIndices, int j){
-        model.vertices.remove(vertexIndices.get(j).intValue());//
+        model.vertices.remove(vertexIndices.get(j).intValue());
         for(Polygon polygon1 : model.polygons){
-            for(int k = 0; k < polygon1.getTextureVertexIndices().size(); k++){//
+            for(int k = 0; k < polygon1.getTextureVertexIndices().size(); k++){
 
-                if(polygon1.getTextureVertexIndices().get(k) > vertexIndices.get(j)){//
-                    polygon1.getTextureVertexIndices().set(k, polygon1.getTextureVertexIndices().get(k) - 1);//
+                if(polygon1.getTextureVertexIndices().get(k) > vertexIndices.get(j)){
+                    polygon1.getTextureVertexIndices().set(k, polygon1.getTextureVertexIndices().get(k) - 1);
                 }
             }
         }

@@ -49,4 +49,9 @@ public class Polygon {
     public ArrayList<Integer> getNormalIndices() {
         return normalIndices;
     }
+
+    public boolean containsVertex(Integer index) {
+        return vertexIndices.contains(index);
+    }
+
 }

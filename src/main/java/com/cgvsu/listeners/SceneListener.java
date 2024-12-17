@@ -1,2 +1,4 @@
-package com.cgvsu.listeners;public class SceneListener {
+package com.cgvsu.listeners;
+
+public class SceneListener {
 }
