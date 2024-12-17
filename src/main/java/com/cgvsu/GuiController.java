@@ -4,6 +4,7 @@ import com.cgvsu.math.Matrix;
 import com.cgvsu.model.ModelUtils;
 import com.cgvsu.render_engine.RenderEngine;
 import com.cgvsu.render_engine.RenderStyle;
+import com.cgvsu.scene.Scene;
 import javafx.fxml.FXML;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -42,6 +43,9 @@ public class GuiController {
     private Canvas canvas;
 
     private Model mesh = null;
+
+    Scene scene = new Scene();
+
 
     private HashMap<String, Model> meshes = new HashMap<>();
 
