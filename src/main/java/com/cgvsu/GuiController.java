@@ -1,5 +1,7 @@
 package com.cgvsu;
 
+import com.cgvsu.buffers.VertexBuffer;
+import com.cgvsu.buffers.VertexBufferUtils;
 import com.cgvsu.math.Matrix;
 import com.cgvsu.model.ModelUtils;
 import com.cgvsu.render_engine.RenderEngine;
@@ -33,7 +35,6 @@ public class GuiController {
     Color fillColor = Color.AQUA;
 
     HashMap<RenderStyle, Boolean> renderProperties = new HashMap<>();
-    Scene scene = new Scene();
 
     final private float TRANSLATION = 0.5F;
 
@@ -44,6 +45,10 @@ public class GuiController {
     private Canvas canvas;
 
     private Model mesh = null;
+
+    Scene scene = new Scene();
+
+    VertexBuffer vertexBuffer = new VertexBuffer();
 
     private Camera camera = new Camera(
             new Vector3f(0, 0, 100),
@@ -72,12 +77,15 @@ public class GuiController {
 
             if (mesh != null) {
                 // ModelUtils.triangulatePolygons(mesh);
-                RenderEngine.render(canvas.getGraphicsContext2D(), camera, mesh, (int) width, (int) height, fillColor, renderProperties);
+                RenderEngine.render(canvas.getGraphicsContext2D(), camera, mesh, (int) width, (int) height, fillColor,
+                        vertexBuffer, renderProperties);
             }
         });
 
         timeline.getKeyFrames().add(frame);
         timeline.play();
+
+        addClickListener(canvas, vertexBuffer);
     }
 
     @FXML
@@ -282,5 +290,14 @@ public class GuiController {
         mesh.vertices.forEach(vertex -> vertex.applyMatrix(rotationMatrix));
     }
 
+
+    public static void addClickListener(Canvas canvas, VertexBuffer vertexBuffer) {
+        canvas.setOnMouseClicked(event -> {
+            double x = event.getX();
+            double y = event.getY();
+
+            VertexBufferUtils.checkClickOnVertex(vertexBuffer, x, y);
+        });
+    }
 
 }

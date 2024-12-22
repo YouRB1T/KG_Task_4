@@ -3,6 +3,7 @@ package com.cgvsu.render_engine;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.cgvsu.buffers.VertexBuffer;
 import com.cgvsu.math.Vector3f;
 import com.cgvsu.rasterization.*;
 import javafx.scene.canvas.Canvas;
@@ -16,7 +17,6 @@ import static com.cgvsu.render_engine.GraphicConveyor.*;
 
 public class RenderEngine {
 
-
     public static void render(
             final GraphicsContext graphicsContext,
             final Camera camera,
@@ -24,6 +24,7 @@ public class RenderEngine {
             final int width,
             final int height,
             Color fillColor,
+            VertexBuffer vertexBuffer,
             HashMap<RenderStyle,Boolean> renderProperties)
     {
         double redColor = fillColor.getRed();
@@ -51,7 +52,12 @@ public class RenderEngine {
 
                 Point2f resultPoint = vertexToPoint(multiplyMatrix4ByVector3(modelViewProjectionMatrix, vertexVecmath), width, height);
                 resultPoints.add(resultPoint);
+
+                graphicsContext.setFill(Color.RED);
+                graphicsContext.fillOval(resultPoint.x - 1, resultPoint.y - 1, 3, 3);
             }
+
+            vertexBuffer.setVertexBuffer(resultPoints);
 
             if (renderProperties.get(RenderStyle.Polygonal_Grid)) {
                 for (int vertexInPolygonInd = 1; vertexInPolygonInd < nVerticesInPolygon; ++vertexInPolygonInd) {
