@@ -2,6 +2,8 @@ package com.cgvsu.render_engine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.cgvsu.buffers.VertexBuffer;
 import com.cgvsu.math.Vector3f;
@@ -41,6 +43,8 @@ public class RenderEngine {
         modelViewProjectionMatrix.mul(projectionMatrix);
 
         final int nPolygons = mesh.polygons.size();
+
+        Set<Point2f> allPoints = new HashSet<>();
         for (int polygonInd = 0; polygonInd < nPolygons; ++polygonInd) {
             final int nVerticesInPolygon = mesh.polygons.get(polygonInd).getVertexIndices().size();
 
@@ -52,12 +56,11 @@ public class RenderEngine {
 
                 Point2f resultPoint = vertexToPoint(multiplyMatrix4ByVector3(modelViewProjectionMatrix, vertexVecmath), width, height);
                 resultPoints.add(resultPoint);
+                allPoints.add(resultPoint);
 
                 graphicsContext.setFill(Color.RED);
                 graphicsContext.fillOval(resultPoint.x - 1, resultPoint.y - 1, 3, 3);
             }
-
-            vertexBuffer.setVertexBuffer(resultPoints);
 
             if (renderProperties.get(RenderStyle.Polygonal_Grid)) {
                 for (int vertexInPolygonInd = 1; vertexInPolygonInd < nVerticesInPolygon; ++vertexInPolygonInd) {
@@ -82,6 +85,7 @@ public class RenderEngine {
             }
         }
 
+        vertexBuffer.setVertexBuffer(allPoints.stream().toList());
     }
 
 }
