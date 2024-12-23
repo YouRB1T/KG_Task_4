@@ -1,7 +1,8 @@
 package com.cgvsu.model;
-import com.cgvsu.math.Vector2f;
-import com.cgvsu.math.Vector3f;
 
+
+import com.cgvsu.math.typesVectors.Vector2f;
+import com.cgvsu.math.typesVectors.Vector3f;
 import java.util.*;
 
 public class Model {

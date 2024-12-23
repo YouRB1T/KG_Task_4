@@ -16,9 +16,9 @@ public class Rasterization {
         if(polygonVertexIndices.size() < 3)
             return;
         if(polygonVertexIndices.size() == 3)
-            fillTriangle(gr,new MyPoint2D(model.vertices.get(polygonVertexIndices.get(0)).x,model.vertices.get(polygonVertexIndices.get(0)).y),
-                    new MyPoint2D(model.vertices.get(polygonVertexIndices.get(1)).x,model.vertices.get(polygonVertexIndices.get(1)).y),
-                    new MyPoint2D(model.vertices.get(polygonVertexIndices.get(2)).x,model.vertices.get(polygonVertexIndices.get(2)).y),
+            fillTriangle(gr,new Point2D(model.vertices.get(polygonVertexIndices.get(0)).getX(),model.vertices.get(polygonVertexIndices.get(0)).getY()),
+                    new Point2D(model.vertices.get(polygonVertexIndices.get(1)).getX(),model.vertices.get(polygonVertexIndices.get(1)).getY()),
+                    new Point2D(model.vertices.get(polygonVertexIndices.get(2)).getX(),model.vertices.get(polygonVertexIndices.get(2)).getY()),
                     new MyColor(1,0,0),new MyColor(1,0,0),new MyColor(1,0,0));
         else {
             ArrayList<Polygon> triangles = ModelUtils.triangulatePolygon(polygon);
@@ -30,13 +30,13 @@ public class Rasterization {
 
     public static void fillTriangle(
             final GraphicsUtils gr,
-            MyPoint2D p1, MyPoint2D p2, MyPoint2D p3,
+            Point2D p1, Point2D p2, Point2D p3,
             MyColor myColor1, MyColor myColor2, MyColor myColor3) {
 
 
-        List<MyPoint2D> points = new ArrayList<>(Arrays.asList(p1, p2, p3));
+        List<Point2D> points = new ArrayList<>(Arrays.asList(p1, p2, p3));
 
-        points.sort(Comparator.comparingDouble(MyPoint2D::getY));
+        points.sort(Comparator.comparingDouble(Point2D::getY));
 
         final double x1 = points.get(0).getX();
         double x2 = points.get(1).getX();
@@ -65,7 +65,7 @@ public class Rasterization {
             double x2, double y2,
             double x3, double y3,
             MyColor myColor1, MyColor myColor2, MyColor myColor3) {
-        fillTriangle(gr, new MyPoint2D(x1, y1), new MyPoint2D(x2, y2), new MyPoint2D(x3, y3), myColor1, myColor2, myColor3);
+        fillTriangle(gr, new Point2D(x1, y1), new Point2D(x2, y2), new Point2D(x3, y3), myColor1, myColor2, myColor3);
     }
 
     private static double getX(double y, double x1, double x2, double y1, double y2) {

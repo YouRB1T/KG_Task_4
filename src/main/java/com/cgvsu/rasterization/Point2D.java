@@ -2,12 +2,11 @@ package com.cgvsu.rasterization;
 
 import java.util.Objects;
 
-public class MyPoint2D {
-    //todo: сделать х и у float
+public class Point2D {
     private double x;
     private double y;
 
-    public MyPoint2D(double x, double y) {
+    public Point2D(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -32,7 +31,7 @@ public class MyPoint2D {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MyPoint2D myPoint2D = (MyPoint2D) o;
+        Point2D myPoint2D = (Point2D) o;
         return Double.compare(myPoint2D.x, x) == 0 && Double.compare(myPoint2D.y, y) == 0;
     }
 
@@ -44,7 +43,7 @@ public class MyPoint2D {
 
     @Override
     public String toString() {
-        return "MyPoint2D{" +
+        return "Point2D{" +
                 "x=" + x +
                 ", y=" + y +
                 '}';

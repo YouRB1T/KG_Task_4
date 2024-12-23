@@ -1,16 +1,11 @@
 package com.cgvsu.model;
 
-import com.cgvsu.math.Vector3f;
-
-import java.time.chrono.MinguoDate;
 import java.util.ArrayList;
 
-import static com.cgvsu.math.Vector3f.*;
-import static com.cgvsu.math.Vector3f.sum;
-
+/*todo: Если ты подтверждаешь, что всё здесь нужно, то я доработаю математику*/
 public class ModelUtils {
 
-    public static void recalculateNormals(Model model) {
+    /*public static void recalculateNormals(Model model) {
         model.normals.clear();
         for (int i = 0; i < model.vertices.size(); i++) {
             model.normals.add(calculateNormalForVertexInModel(model, i));
@@ -37,7 +32,7 @@ public class ModelUtils {
         }
         return sum(saved).divide(saved.size());
     }
-
+*/
     public static ArrayList<Polygon> triangulatePolygon(Polygon polygon) {
         ArrayList<Polygon> triangles = new ArrayList<>();
         int index = 0;
@@ -45,7 +40,6 @@ public class ModelUtils {
 
             Polygon triangle = new Polygon();
 
-            // Добавляем вершины в треугольник
             triangle.getVertexIndices().add(
                     polygon.getVertexIndices().get(index));
             triangle.getVertexIndices().add(
@@ -118,7 +112,7 @@ public class ModelUtils {
                 triangles.add(triangle);
             }
 
-            if (polygon.getVertexIndices().size() < 3) { //Убираем из массива точки, которые уже построились
+            if (polygon.getVertexIndices().size() < 3) {
                 polygon.getVertexIndices().clear();
             }
         }

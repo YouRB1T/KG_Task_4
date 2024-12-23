@@ -1,10 +1,9 @@
 package com.cgvsu.objreader;
 
-import com.cgvsu.math.Vector2f;
-import com.cgvsu.math.Vector3f;
+import com.cgvsu.math.typesVectors.Vector2f;
+import com.cgvsu.math.typesVectors.Vector3f;
 import com.cgvsu.model.Model;
 import com.cgvsu.model.Polygon;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -12,7 +11,6 @@ import java.util.Scanner;
 /**
  * author: https://github.com/Last-Huntsman/Vertex-Remover/tree/master/ObjReaderInitial/src/com/cgvsu/objreader
  */
-
 public class ObjReader {
 
 	private static final String OBJ_VERTEX_TOKEN = "v";

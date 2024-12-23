@@ -1,9 +1,8 @@
 package com.cgvsu.deleter;
 
-import com.cgvsu.math.Vector3f;
 import com.cgvsu.model.Model;
 import com.cgvsu.model.Polygon;
-
+import com.cgvsu.math.typesVectors.Vector3f;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

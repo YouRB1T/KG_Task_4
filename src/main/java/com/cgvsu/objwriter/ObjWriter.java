@@ -1,10 +1,9 @@
 package com.cgvsu.objwriter;
 
-import com.cgvsu.math.Vector2f;
-import com.cgvsu.math.Vector3f;
+import com.cgvsu.math.typesVectors.Vector2f;
+import com.cgvsu.math.typesVectors.Vector3f;
 import com.cgvsu.model.Model;
 import com.cgvsu.model.Polygon;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +12,7 @@ import java.util.List;
 /**
  * author https://github.com/9anchik/CG-task3/blob/master/src/com/cgvsu/objwriter/ObjWriterClass.java
  */
+
 public class ObjWriter {
     private static final String OBJ_VERTEX_TOKEN = "v";
     private static final String OBJ_TEXTURE_TOKEN = "vt";
