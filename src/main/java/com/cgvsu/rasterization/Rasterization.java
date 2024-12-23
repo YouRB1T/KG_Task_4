@@ -1,5 +1,6 @@
 package com.cgvsu.rasterization;
 
+import com.cgvsu.buffers.ZBuffer;
 import com.cgvsu.model.Model;
 import com.cgvsu.model.ModelUtils;
 import com.cgvsu.model.Polygon;
@@ -88,7 +89,6 @@ public class Rasterization {
             gr.setPixel(x, y, getColor(myColor1, myColor2, myColor3, x, y, x1, x2, x3, y1, y2, y3));
         }
     }
-
 
     private static MyColor getColor(
             MyColor myColor1, MyColor myColor2, MyColor myColor3,
