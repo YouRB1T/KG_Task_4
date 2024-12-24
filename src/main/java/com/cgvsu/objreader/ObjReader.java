@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * author: https://github.com/Last-Huntsman/Vertex-Remover/tree/master/ObjReaderInitial/src/com/cgvsu/objreader
+ * author: <a href="https://github.com/Last-Huntsman/Vertex-Remover/tree/master/ObjReaderInitial/src/com/cgvsu/objreader">...</a>
  */
 public class ObjReader {
 

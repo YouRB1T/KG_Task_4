@@ -56,10 +56,10 @@ public class Vector4f extends VectorWrapperC<Vector4f> {
     }
 
     public double getZ(){
-        return super.get(3);
+        return super.get(2);
     }
 
     public double getW(){
-        return super.get(4);
+        return super.get(3);
     }
 }

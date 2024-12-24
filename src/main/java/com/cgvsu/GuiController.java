@@ -1,5 +1,7 @@
 package com.cgvsu;
 
+import com.cgvsu.math.ATTransformator;
+import com.cgvsu.math.typesMatrix.Matrix4f;
 import com.cgvsu.math.typesVectors.Vector3f;
 import com.cgvsu.model.Model;
 import com.cgvsu.model.ModelUtils;
@@ -18,6 +20,7 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -29,8 +32,11 @@ public class GuiController {
     Color fillColor = Color.AQUA;
     HashMap<RenderStyle, Boolean> renderProperties = new HashMap<>();
     final private float TRANSLATION = 0.5F;
-    private double startX;
-    private double startY;
+    private double startMouseX = 0;
+    private double startMouseY = 0;
+    private double radius = 50.0;
+    private double theta = 0;
+    private double phi = 0;
 
     @FXML
     AnchorPane anchorPane;
@@ -41,7 +47,7 @@ public class GuiController {
     private Model mesh = null;
 
     private Camera camera = new Camera(
-            new Vector3f(0, 0, 100),
+            new Vector3f(0, 0, 50),
             new Vector3f(0, 0, 0),
             1.0F, 1, 0.01F, 100);
 
@@ -55,8 +61,8 @@ public class GuiController {
         timeline = new Timeline();
         timeline.setCycleCount(Animation.INDEFINITE);
 
-        renderProperties.put(RenderStyle.Polygonal_Grid,true);
-        renderProperties.put(RenderStyle.Color_Fill,false);
+        renderProperties.put(RenderStyle.Polygonal_Grid, true);
+        renderProperties.put(RenderStyle.Color_Fill, false);
 
         KeyFrame frame = new KeyFrame(Duration.millis(15), event -> {
             double width = canvas.getWidth();
@@ -103,6 +109,11 @@ public class GuiController {
     }
 
     @FXML
+    private void handleMouseClick(MouseEvent event) {
+        double x = event.getX();
+        double y = event.getY();
+    }
+
     public void clearScene() {
         mesh = null;
     }
@@ -149,27 +160,200 @@ public class GuiController {
     }
 
     @FXML
-    public void handleCameraRotateLeft(ActionEvent actionEvent) {
-        camera.rotateCamera(0, Math.toRadians(5), 0);
+    public void handleCameraMove(MouseEvent event) {
+        Simple3DViewer obj = new Simple3DViewer();
+        double deltaX = event.getSceneX() - obj.getWidth() / 2;
+        double deltaY = event.getSceneY() - obj.getHeight() / 2;
+
+        theta += Math.toRadians(deltaX * 0.5);
+        phi -= Math.toRadians(deltaY * 0.5);
+        updateCameraPosition();
+    }
+
+    public void moveCamera(MouseEvent event) {
+        Simple3DViewer obj = new Simple3DViewer();
+        startMouseX = event.getSceneX() - obj.getWidth() / 2;
+        startMouseY = event.getSceneY() - obj.getHeight() / 2;
+
+        double deltaX = event.getSceneX() - startMouseX;
+        double deltaY = event.getSceneY() - startMouseY;
+
+        double moveSpeed = 0.5;
+        Vector3f direction = new Vector3f(deltaX * moveSpeed, deltaY * moveSpeed, 0);
+
+        Vector3f currentPosition = camera.getPosition();
+        Vector3f newPosition = currentPosition.added(direction);
+        camera.setPosition(newPosition);
+        updateCameraPosition();
+
+        startMouseX = event.getSceneX();
+        startMouseY = event.getSceneY();
     }
 
     @FXML
-    public void handleCameraRotateRight(ActionEvent actionEvent) {
-        camera.rotateCamera(0, Math.toRadians(-5), 0);
+    public void handleCameraZoom(ScrollEvent event) {
+        double delta = event.getDeltaY();
+        radius += delta * 0.1;
+        updateCameraPosition();
+    }
+
+    private void updateCameraPosition() {
+        double x = radius * Math.sin(phi) * Math.cos(theta);
+        double y = radius * Math.cos(phi);
+        double z = radius * Math.sin(phi) * Math.sin(theta);
+
+        camera.setPosition(new Vector3f(x, y, z));
+    }
+
+    // Перемещение
+    @FXML
+    public void handleMovementXPlus(ActionEvent actionEvent) {
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.translateByCoordinates(0.5f, 0, 0).build();
+        Matrix4f transform = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(transform);
     }
 
     @FXML
-    public void handleCameraRotateUp(ActionEvent actionEvent) {
-        camera.rotateCamera(Math.toRadians(5), 0, 0);
+    public void handleMovementXMinus(ActionEvent actionEvent) {
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.translateByCoordinates(-0.5f, 0, 0).build();
+        Matrix4f transform = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(transform);
     }
 
     @FXML
-    public void handleCameraRotateDown(ActionEvent actionEvent) {
-        camera.rotateCamera(Math.toRadians(-5), 0, 0);
+    public void handleMovementYPlus(ActionEvent actionEvent) {
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.translateByCoordinates(0, 0.5f, 0).build();
+        Matrix4f transform = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(transform);
     }
 
     @FXML
-    public void mouseCameraZoom(ScrollEvent scrollEvent) {
-        camera.mouseCameraZoom(scrollEvent.getDeltaY());
+    public void handleMovementYMinus(ActionEvent actionEvent) {
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.translateByCoordinates(0, -0.5f, 0).build();
+        Matrix4f transform = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(transform);
+    }
+
+    @FXML
+    public void handleMovementZPlus(ActionEvent actionEvent) {
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.translateByCoordinates(0, 0, 0.5f).build();
+        Matrix4f transform = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(transform);
+    }
+
+    @FXML
+    public void handleMovementZMinus(ActionEvent actionEvent) {
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.translateByCoordinates(0, 0, -0.5f).build();
+        Matrix4f transform = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(transform);
+    }
+
+    // Масштабирование
+    @FXML
+    public void handleScaleXPlus(ActionEvent actionEvent) {
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.scaleByCoordinates(1.01f, 1, 1).build();
+        Matrix4f scaleMatrix = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(scaleMatrix);
+    }
+
+    @FXML
+    public void handleScaleXMinus(ActionEvent actionEvent) {
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.scaleByCoordinates(0.99f, 1, 1).build();
+        Matrix4f scaleMatrix = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(scaleMatrix);
+    }
+
+    @FXML
+    public void handleScaleYPlus(ActionEvent actionEvent) {
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.scaleByCoordinates(1,1.01f,  1).build();
+        Matrix4f scaleMatrix = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(scaleMatrix);
+    }
+
+    @FXML
+    public void handleScaleYMinus(ActionEvent actionEvent) {
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.scaleByCoordinates(1,0.99f,  1).build();
+        Matrix4f scaleMatrix = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(scaleMatrix);
+    }
+    @FXML
+    public void handleScaleZPlus(ActionEvent actionEvent) {
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.scaleByCoordinates(1, 1, 1.01f).build();
+        Matrix4f scaleMatrix = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(scaleMatrix);
+    }
+
+    @FXML
+    public void handleScaleZMinus(ActionEvent actionEvent) {
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.scaleByCoordinates(1, 1, 0.99f).build();
+        Matrix4f scaleMatrix = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(scaleMatrix);
+    }
+
+    // Вращение
+    @FXML
+    public void handleRotationXPlus(ActionEvent actionEvent) {
+        double angle = 10.0F;
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.rotateByX(angle).build();
+        Matrix4f rotationMatrix = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(rotationMatrix);
+    }
+
+    @FXML
+    public void handleRotationXMinus(ActionEvent actionEvent) {
+        double angle = -10.0F;
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.rotateByX(angle).build();
+        Matrix4f rotationMatrix = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(rotationMatrix);
+    }
+
+    @FXML
+    public void handleRotationYPlus(ActionEvent actionEvent) {
+        double angle = 10.0F;
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.rotateByY(angle).build();
+        Matrix4f rotationMatrix = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(rotationMatrix);
+    }
+
+    @FXML
+    public void handleRotationYMinus(ActionEvent actionEvent) {
+        double angle = -10.0F;
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.rotateByY(angle).build();
+        Matrix4f rotationMatrix = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(rotationMatrix);
+    }
+
+    @FXML
+    public void handleRotationZPlus(ActionEvent actionEvent) {
+        double angle = 10.0F;
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.rotateByZ(angle).build();
+        Matrix4f rotationMatrix = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(rotationMatrix);
+    }
+
+    @FXML
+    public void handleRotationZMinus(ActionEvent actionEvent) {
+        double angle = -10.0F;
+        ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
+        ATTransformator transformator = builder.rotateByZ(angle).build();
+        Matrix4f rotationMatrix = transformator.getTransformationMatrix();
+        mesh.applyTransformationMatrix(rotationMatrix);
     }
 }

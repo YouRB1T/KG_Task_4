@@ -222,8 +222,6 @@ public abstract class VectorWrapperC<T extends VectorWrapperC<T>> {
         return newMatrix(vector.crossProduct(other.getVector()));
     }
 
-    // Прочее
-
     /**
      * Печать текущего вектора в консоль.
      */

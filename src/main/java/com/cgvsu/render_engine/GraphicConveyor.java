@@ -7,9 +7,9 @@ import com.cgvsu.math.typesVectors.Vector4f;
 import com.cgvsu.rasterization.Point2D;
 
 public class GraphicConveyor {
-    public static Matrix4f rotateScaleTranslate() {
+    public static Matrix4f rotateScaleTranslate(Vector3f vector) {
         ATTransformator.ATBuilder builder = new ATTransformator.ATBuilder();
-        ATTransformator transformator = builder.translateByCoordinates(0,0,0).build();
+        ATTransformator transformator = builder.translateByVector(vector.multiplied(-1)).build();
         Matrix4f matrix = transformator.getTransformationMatrix();
         return matrix;
     }
