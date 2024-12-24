@@ -1,0 +1,16 @@
+.root {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #000000;
+}
+
+.menu-bar {
+    -fx-background-color: #ffffff;
+}
+
+.menu-item {
+    -fx-text-fill: #000000;
+}
+
+.canvas {
+    -fx-background-color: #ffffff;
+}
