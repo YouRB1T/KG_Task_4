@@ -32,8 +32,8 @@ public class GuiController {
     Color fillColor = Color.AQUA;
     HashMap<RenderStyle, Boolean> renderProperties = new HashMap<>();
     final private float TRANSLATION = 0.5F;
-    private double startMouseX = 0;
-    private double startMouseY = 0;
+    private double prevX = 0;
+    private double prevY = 0;
     private double radius = 50.0;
     private double theta = 0;
     private double phi = 0;
@@ -109,11 +109,6 @@ public class GuiController {
     }
 
     @FXML
-    private void handleMouseClick(MouseEvent event) {
-        double x = event.getX();
-        double y = event.getY();
-    }
-
     public void clearScene() {
         mesh = null;
     }
@@ -126,6 +121,22 @@ public class GuiController {
     @FXML
     private void setRenderStyleToColorFill() {
         renderProperties.put(RenderStyle.Color_Fill, !renderProperties.get(RenderStyle.Color_Fill));
+    }
+
+    //костыль к gui.fxml
+    @FXML
+    public void handleMouseClick(MouseEvent event) {
+        if (event.isSecondaryButtonDown()) {
+            handleCameraRotation(event);
+        } else if (event.isMiddleButtonDown()) {
+            handleCameraMove(event);
+        }
+    }
+
+    @FXML
+    private void StupidCrutch(MouseEvent event){
+        prevX = event.getSceneX();
+        prevY = event.getSceneY();
     }
 
     //работа камеры
@@ -160,40 +171,42 @@ public class GuiController {
     }
 
     @FXML
-    public void handleCameraMove(MouseEvent event) {
-        Simple3DViewer obj = new Simple3DViewer();
-        double deltaX = event.getSceneX() - obj.getWidth() / 2;
-        double deltaY = event.getSceneY() - obj.getHeight() / 2;
+    public void handleCameraRotation(MouseEvent event) {
+        double deltaX = event.getSceneX() - prevX;
+        double deltaY = event.getSceneY() - prevY;
+        theta -= Math.toRadians(deltaX * 0.1);
+        phi -= Math.toRadians(deltaY * 0.1);
+        prevX = event.getSceneX();
+        prevY = event.getSceneY();
 
-        theta += Math.toRadians(deltaX * 0.5);
-        phi -= Math.toRadians(deltaY * 0.5);
+        phi = Math.max(0.1, Math.min(Math.PI - 0.1, phi));
         updateCameraPosition();
     }
 
-    public void moveCamera(MouseEvent event) {
-        Simple3DViewer obj = new Simple3DViewer();
-        startMouseX = event.getSceneX() - obj.getWidth() / 2;
-        startMouseY = event.getSceneY() - obj.getHeight() / 2;
+    @FXML
+    public void handleCameraMove(MouseEvent event) {
+        double deltaX = event.getSceneX() - prevX;
+        double deltaY = event.getSceneY() - prevY;
+        double moveSpeed = 0.1;
 
-        double deltaX = event.getSceneX() - startMouseX;
-        double deltaY = event.getSceneY() - startMouseY;
-
-        double moveSpeed = 0.5;
         Vector3f direction = new Vector3f(deltaX * moveSpeed, deltaY * moveSpeed, 0);
-
         Vector3f currentPosition = camera.getPosition();
         Vector3f newPosition = currentPosition.added(direction);
+
         camera.setPosition(newPosition);
         updateCameraPosition();
 
-        startMouseX = event.getSceneX();
-        startMouseY = event.getSceneY();
+        prevX = event.getSceneX();
+        prevY = event.getSceneY();
     }
 
     @FXML
     public void handleCameraZoom(ScrollEvent event) {
         double delta = event.getDeltaY();
         radius += delta * 0.1;
+
+        double minRadius = 1.0;
+        radius = Math.max(minRadius, radius);
         updateCameraPosition();
     }
 

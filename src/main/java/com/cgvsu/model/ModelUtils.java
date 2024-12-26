@@ -2,7 +2,7 @@ package com.cgvsu.model;
 
 import java.util.ArrayList;
 
-/*todo: Если ты подтверждаешь, что всё здесь нужно, то я доработаю математику*/
+/*Если ты подтверждаешь, что всё здесь нужно, то я доработаю математику*/
 public class ModelUtils {
 
     /*public static void recalculateNormals(Model model) {

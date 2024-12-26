@@ -19,10 +19,9 @@ public class GraphicConveyor {
     }
 
     public static Matrix4f lookAt(Vector3f eye, Vector3f target, Vector3f up) {
-        Vector3f resultZ = target.subtracted(eye).normalize();
-        Vector3f resultX = up.crossProduct(resultZ).normalize();
-        Vector3f resultY = resultZ.crossProduct(resultX);
-
+            Vector3f resultZ = target.subtracted(eye).normalize();
+            Vector3f resultX = up.crossProduct(resultZ).normalize();
+            Vector3f resultY = resultZ.crossProduct(resultX);
         double[] matrix = new double[]{
                 resultX.getX(), resultX.getY(), resultX.getZ(), -resultX.dotProduct(eye),
                 resultY.getX(), resultY.getY(), resultY.getZ(), -resultY.dotProduct(eye),

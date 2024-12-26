@@ -171,6 +171,4 @@ public class SquareMatrix extends AbstractMatrix<SquareMatrix> {
     protected SquareMatrix newMatrix(Matrix matrix) {
         return new SquareMatrix(matrix);
     }
-
-    // TODO: Добавить реализацию вычисления определителя, обратной матрицы и других полезных методов.
 }
